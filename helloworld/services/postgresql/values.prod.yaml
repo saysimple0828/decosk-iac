@@ -1,0 +1,40 @@
+auth:
+  database: "postgres"
+  username: "postgres"
+  password: "postgres"
+
+  enablePostgresUser: true
+  postgresPassword: "postgres"
+
+  replicationUsername: repl_user
+  replicationPassword: "postgres"
+
+metrics:
+  enabled: false
+  serviceMonitor:
+    enabled: false
+    additionalLabels: {}
+
+# resources:  
+#   limits:
+#     cpu: 100m
+#     memory: 128Mi
+#   requests:
+#     cpu: 100m
+#     memory: 128Mi
+
+architecture: standalone
+
+replication:
+  synchronousCommit: "off"
+  numSynchronousReplicas: 0
+  applicationName: my_application
+
+containerPorts:
+  postgresql: 5432
+
+primary:
+  persistence:
+    storageClass: "openebs-hostpath"
+    mountPath: /var/lib/postgresql/data
+    size: 20Gi

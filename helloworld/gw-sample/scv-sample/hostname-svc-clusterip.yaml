@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: hostname-svc-clusterip
+spec:
+  ports:
+  - name: web-port
+    port: 8080              # 서비스의 IP에 접근할 때 사용할 포트
+    targetPort: 80			# selector 항목에서 정의한 라벨의 포트의 내부에서 사용하고 있는 포트
+  selector:					# 접근 허용할 포드의 라벨을 정의
+    app: webserver
+  type: ClusterIP			# 서비스 타입

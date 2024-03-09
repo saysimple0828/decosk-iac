@@ -1,0 +1,22 @@
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: Gateway
+metadata:
+  name: hello-gateway
+  namespace: hello
+spec:
+  gatewayClassName: istio
+  listeners:
+  - name: https
+    hostname: "api.play-helloworld.com"
+    port: 443
+    protocol: HTTPS
+    tls:
+      mode: Terminate
+      certificateRefs:
+      - name: hello-credential
+    allowedRoutes:
+      namespaces:
+        from: Selector
+        selector:
+          matchLabels:
+            kubernetes.io/metadata.name: hello

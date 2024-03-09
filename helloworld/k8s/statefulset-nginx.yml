@@ -1,0 +1,48 @@
+fapiVersion: v1
+kind: Service
+metadata:
+  name: nginx
+  labels:
+    app: nginx
+  spec:
+    type: NodePort
+    ports:
+    - port: 80
+      name: web
+    clusterIP: 10.96.10.10
+    selector:
+      app: nginx
+---
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: web
+spec:
+  serviceName: "nginx"
+  replicas: 2
+  selector:
+    matchLabels:
+      app: nginx
+  template:
+    metadata:
+      labels:
+        app: nginx
+    spec:
+      containers:
+      - name: nginx
+        image: k8s.gcr.io/nginx-slim:0.8
+        ports:
+        - containerPort: 80
+          name: web
+        volumeMounts:
+        - name: web-pvc
+          mountPath: /usr/share/nginx/html
+  volumeClaimTemplates:
+  - metadata:
+      name: web-pvc
+    spec:
+      storageClassName: nfs-storageclass
+      accessModes: [ "ReadWriteMany" ]
+      resources:
+        requests:
+          storage: 1Gi

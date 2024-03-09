@@ -1,0 +1,17 @@
+apiVersion: storage.k8s.io/v1
+kind: StorageClass
+metadata:
+  name: local-postgresql-single
+  annotations:
+    openebs.io/cas-type: local
+    cas.openebs.io/config: |
+      - name: StorageType
+        value: hostpath
+      - name: BasePath
+        value: /postgres
+provisioner: openebs.io/local
+volumeBindingMode: WaitForFirstCosumer
+reclaimPolicy: Delete
+parameters:
+  path: "/postgres"
+  nodeAffinityLabel: "openebs.io/localpv=allowed"

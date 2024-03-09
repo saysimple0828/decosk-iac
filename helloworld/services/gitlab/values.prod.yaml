@@ -1,0 +1,103 @@
+global:
+  edition: ce
+  hosts:
+    domain: hello.com
+    https: true
+    ssh: ~
+    gitlab:
+      name: gitlab.hello.com
+      https: true
+    minio:
+      name: minio.hello.com
+      https: true
+    registry:
+      name: registry.hello.com
+      https: true
+  # ingress:
+  #   configureCertmanager: false
+  #   provider: nginx
+  #   class: nginx
+  #   annotations: {}
+  #   enabled: true
+  #   tls: 
+  #     enabled: true
+  #   #   secretName:
+  #   path: /
+  #   pathType: Prefix
+
+# nginx-ingress:
+#   enabled: false
+#   tcpExternalConfig: "true"
+#   controller:
+#     addHeaders:
+#       Referrer-Policy: strict-origin-when-cross-origin
+#     config:
+#       hsts: "true"
+#       hsts-include-subdomains: "false"
+#       hsts-max-age: "63072000"
+#       server-name-hash-bucket-size: "256"
+#       use-http2: "true"
+#       ssl-ciphers: "ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384:ECDHE-ECDSA-CHACHA20-POLY1305:ECDHE-RSA-CHACHA20-POLY1305:DHE-RSA-AES128-GCM-SHA256:DHE-RSA-AES256-GCM-SHA384:!aNULL:!eNULL:!EXPORT:!DES:!MD5:!PSK:!RC4"
+#       ssl-protocols: "TLSv1.3 TLSv1.2"
+#       server-tokens: "false"
+
+# gitlab-runner:
+#   install: true
+#   rbac:
+#     create: true
+#   runners:
+#     locked: false
+#     # Set secret to an arbitrary value because the runner chart renders the gitlab-runner.secret template only if it is not empty.
+#     # The parent/GitLab chart overrides the template to render the actual secret name.
+#     secret: "nonempty"
+#     config: |
+#       [[runners]]
+#         [runners.kubernetes]
+#         image = "ubuntu:22.04"
+#         {{- if .Values.global.minio.enabled }}
+#         [runners.cache]
+#           Type = "s3"
+#           Path = "gitlab-runner"
+#           Shared = true
+#           [runners.cache.s3]
+#             ServerAddress = {{ include "gitlab-runner.cache-tpl.s3ServerAddress" . }}
+#             BucketName = "runner-cache"
+#             BucketLocation = "us-east-1"
+#             Insecure = false
+#         {{ end }}
+#   podAnnotations:
+#     gitlab.com/prometheus_scrape: "true"
+#     gitlab.com/prometheus_port: 9252
+
+certmanager-issuer:
+  email: gusdn0828@gmail.com
+
+# gitlab:
+#   gitaly:
+#     persistence:
+#       storageClass: openebs-hostpath
+#       size: 30Gi
+
+# minio:
+#   persistence:
+#     enabled: true
+#     storageClass: openebs-hostpath
+#     size: 20Gi
+#     accessMode: ReadWriteOnce
+
+# postgresql:
+#   primary:
+#     persistence:
+#       enabled: true
+#       storageClass: openebs-hostpath
+#       size: 50Gi
+
+# redis:
+#   master:
+#     persistence:
+#       enabled: true
+#       storageClass: openebs-hostpath
+#       size: 5Gi
+
+# prometheus:
+#   install: false

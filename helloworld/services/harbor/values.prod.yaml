@@ -1,0 +1,29 @@
+global:
+  storageClass: "openebs-hostpath"
+
+expose:
+  type: loadBalancer
+  tls:
+    enabled: true
+    certSource: auto
+    auto:
+     commonName: "harbor.hello.io"
+
+loadBalancerIP: "192.168.56.200"
+
+registry:
+  credentials:
+    username: hello
+    password: hello1234
+    ## If you update the username or password of registry, make sure use cli tool htpasswd to generate the bcrypt hash
+    ## e.g. "htpasswd -nbBC10 $username $password"
+    ##
+    htpasswd: hello:$2y$10$bg5.MojDEMeDnt6I3woYLu2IRcBmjBW4LyECP9DDEFkot2HYnsgPW
+
+resources:
+  requests:
+    cpu: 2
+    memory: 512Mi
+  limits:
+    cpu: 3
+    memory: 1024Mi

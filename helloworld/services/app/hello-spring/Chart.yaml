@@ -1,0 +1,6 @@
+apiVersion: v2
+name: hello-spring
+description: A Helm chart for MSA Pattern hello-spring
+type: application
+version: 1.0.0
+appVersion: "1.0.0"

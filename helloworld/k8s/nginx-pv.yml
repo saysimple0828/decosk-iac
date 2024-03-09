@@ -1,0 +1,26 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: nginx-demo
+spec:
+  selector:
+    matchLabels:
+      app: nginx-demo
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: nginx-demo
+    spec:
+      containers:
+      - name: master
+        image: nginx
+        ports:
+        - containerPort: 80
+        volumeMounts:
+        - mountPath: /mnt
+          name: pvc-volume
+      volumes:
+      - name: pvc-volume
+      persistentVolumeClaim: # created pvc's name
+        claimName: pvc
